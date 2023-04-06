@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hdfc.olms.entity.LeaveRequest;
 
 @Repository
-public interface ILeaveRequestRepository extends JpaRepository<LeaveRequest, Integer> {
+public interface ILeaveRequestRepository extends JpaRepository<LeaveRequest, Long> {
 
 }

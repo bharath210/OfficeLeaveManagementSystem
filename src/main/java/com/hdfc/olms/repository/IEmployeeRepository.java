@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hdfc.olms.entity.Employee;
 
 @Repository
-public interface IEmployeeRepository extends JpaRepository<Employee, Integer>{
+public interface IEmployeeRepository extends JpaRepository<Employee, Long>{
 
 }

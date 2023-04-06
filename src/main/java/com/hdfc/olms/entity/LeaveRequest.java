@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import com.hdfc.olms.utils.enums.LeaveStatusType;
 import com.hdfc.olms.utils.enums.LeaveType;
@@ -29,17 +30,23 @@ import lombok.Setter;
 public class LeaveRequest {
 	
 	@Id
-	private int leaveRequestId;
+	private long leaveRequestId;
+	@NotEmpty
 	@ManyToOne
 	@JoinColumn(name = "employee_id")
 	private Employee employee;
+	@NotEmpty
 	private LocalDate startDate;
+	@NotEmpty
 	private LocalDate endDate;
+	@NotEmpty
 	@Enumerated(EnumType.STRING)
 	private LeaveType leaveType;
+	@NotEmpty
 	private String reason;
 	@Column(name = "status", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private LeaveStatusType status;
+	private String rejectComment;
 
 }

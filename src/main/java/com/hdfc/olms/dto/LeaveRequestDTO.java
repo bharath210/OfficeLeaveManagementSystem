@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class LeaveRequestDTO {
 	
-	private int leaveRequestId;
+	private long leaveRequestId;
 	private Employee employee;
 	private LocalDate startDate;
 	private LocalDate endDate;

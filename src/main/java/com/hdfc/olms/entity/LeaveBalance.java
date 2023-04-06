@@ -24,12 +24,12 @@ import lombok.Setter;
 public class LeaveBalance {
 	
 	@Id
-	private int leaveBalanceId;
+	private long leaveBalanceId;
 	@ManyToOne
 	@JoinColumn(name = "employee_id")
 	private Employee employee;
 	@Enumerated(EnumType.STRING)
 	private LeaveType leaveType;
-	private int balance;
+	private long balance;
 
 }

@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class LeaveBalanceDTO {
 	
-	private int leaveBalanceId;
+	private long leaveBalanceId;
 	private Employee employee;
 	private LeaveType leaveType;
-	private int balance;
+	private long balance;
 
 }

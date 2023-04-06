@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hdfc.olms.entity.LeaveBalance;
 
 @Repository
-public interface ILeaveBalanceRepository extends JpaRepository<LeaveBalance, Integer> {
+public interface ILeaveBalanceRepository extends JpaRepository<LeaveBalance, Long> {
 
 }
