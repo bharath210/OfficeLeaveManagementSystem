@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hdfc.olms.utils.enums.LeaveStatusType;
 import com.hdfc.olms.utils.enums.LeaveType;
 
@@ -31,22 +32,24 @@ public class LeaveRequest {
 	
 	@Id
 	private long leaveRequestId;
-	@NotEmpty
+//	@NotEmpty
 	@ManyToOne
 	@JoinColumn(name = "employee_id")
 	private Employee employee;
-	@NotEmpty
+	@JsonFormat(pattern = "yyyy-MM-dd")
+//	@NotEmpty
 	private LocalDate startDate;
-	@NotEmpty
+	@JsonFormat(pattern = "yyyy-MM-dd")
+//	@NotEmpty
 	private LocalDate endDate;
-	@NotEmpty
+//	@NotEmpty
 	@Enumerated(EnumType.STRING)
 	private LeaveType leaveType;
-	@NotEmpty
+//	@NotEmpty
 	private String reason;
 	@Column(name = "status", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private LeaveStatusType status;
-	private String rejectComment;
+	private String comment;
 
 }

@@ -22,5 +22,6 @@ public class LeaveRequestDTO {
 	private LeaveType leaveType;
 	private String reason;
 	private LeaveStatusType status;
+	private String comment;
 
 }

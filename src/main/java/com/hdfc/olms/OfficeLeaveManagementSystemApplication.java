@@ -28,27 +28,27 @@ public class OfficeLeaveManagementSystemApplication {
 		SpringApplication.run(OfficeLeaveManagementSystemApplication.class, args);
 	}
 	
-	@Bean
-	public CommandLineRunner entityTest() {
-		return args -> {
-			Employee e1 = new Employee();
-			e1.setEmployeeId(101);
-			e1.setName("Bharath");
-			e1.setEmail("bharath@gmail.com");
-			e1.setPhoneNumber("87654328");
-			e1.setDepartment("Developer");
-			empRepo.save(e1);
-			
-			LeaveRequest r1 = new LeaveRequest();
-			r1.setLeaveRequestId(201);
-			r1.setEmployee(e1);
-			r1.setLeaveType(LeaveType.CASUAL_LEAVE);
-			r1.setStartDate(LocalDate.now());
-			r1.setEndDate(LocalDate.now());
-			r1.setReason("Marriege");
-			r1.setStatus(LeaveStatusType.PENDING);
-			leaveRequestRepo.save(r1);
-		};
-	}
+//	@Bean
+//	public CommandLineRunner entityTest() {
+//		return args -> {
+//			Employee e1 = new Employee();
+//			e1.setEmployeeId(101);
+//			e1.setName("Bharath");
+//			e1.setEmail("bharath@gmail.com");
+//			e1.setPhoneNumber("87654328");
+//			e1.setDepartment("Developer");
+//			empRepo.save(e1);
+//			
+//			LeaveRequest r1 = new LeaveRequest();
+//			r1.setLeaveRequestId(201);
+//			r1.setEmployee(e1);
+//			r1.setLeaveType(LeaveType.CASUAL_LEAVE);
+//			r1.setStartDate(LocalDate.now());
+//			r1.setEndDate(LocalDate.now());
+//			r1.setReason("Marriege");
+//			r1.setStatus(LeaveStatusType.PENDING);
+//			leaveRequestRepo.save(r1);
+//		};
+//	}
 
 }
