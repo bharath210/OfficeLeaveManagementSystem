@@ -13,5 +13,6 @@ public interface IEmployeeService {
 	public List<Employee> getAllEmployees();
 	public void deleteEmployeeById(long employeeId);
 	public boolean isEmployeeExist(long employeeId);
+	public Employee findByEmail(String email);
 
 }

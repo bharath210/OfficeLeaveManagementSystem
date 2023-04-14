@@ -7,5 +7,7 @@ import com.hdfc.olms.entity.Employee;
 
 @Repository
 public interface IEmployeeRepository extends JpaRepository<Employee, Long>{
+	
+	public Employee findByEmail(String email);
 
 }

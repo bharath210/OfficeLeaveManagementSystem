@@ -2,6 +2,8 @@ package com.hdfc.olms.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +23,17 @@ import com.hdfc.olms.service.IEmployeeService;
 
 @RestController
 @RequestMapping("/api/admin/employees")
-public class EmployeeRestController {
+public class EmployeeController {
 	
 	@Autowired
 	IEmployeeService employeeService;
 	
 	@PostMapping("/add")
-	public Employee createEmployee(@RequestBody EmployeeDTO employeeDTO) {
-		return employeeService.addEmployee(employeeDTO);
+	public ResponseEntity<?> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+
+		  Employee employee = employeeService.addEmployee(employeeDTO);
+		  return new ResponseEntity<>(employee, HttpStatus.OK);
+
 	}
 	
 	@PutMapping("/update")
@@ -57,5 +62,11 @@ public class EmployeeRestController {
 		employeeService.deleteEmployeeById(employeeId);
 		return new ResponseEntity<>("Employee record deleted", HttpStatus.OK);
 	}
+	
+	@GetMapping("/get-by-email/{email}")
+	public Employee findByEmail(@PathVariable String email) {
+			
+			return employeeService.findByEmail(email);
+		}
 
 }

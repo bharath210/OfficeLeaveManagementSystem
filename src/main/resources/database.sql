@@ -2,7 +2,7 @@ create database olms_db;
 use olms_db;
 
 create table Employees (
-		employee_id int,
+	employee_id int,
         name varchar(255),
         email varchar(255),
         phone_number char(10),
@@ -11,7 +11,7 @@ create table Employees (
 );
 
 create table Leave_Requests(
-		leave_request_id int,
+	leave_request_id int,
         employee_id int,
         start_date date,
         end_date date,
@@ -23,7 +23,7 @@ create table Leave_Requests(
 );
 
 create table Leave_Balances (
-		leave_balance_id int,
+	leave_balance_id int,
         employee_id int,
         leave_type varchar(255),
         balance int,

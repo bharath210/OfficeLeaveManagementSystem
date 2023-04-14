@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,21 +33,18 @@ import lombok.Setter;
 public class LeaveRequest {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long leaveRequestId;
-//	@NotEmpty
+	
 	@ManyToOne
 	@JoinColumn(name = "employee_id")
 	private Employee employee;
 	@JsonFormat(pattern = "yyyy-MM-dd")
-//	@NotEmpty
 	private LocalDate startDate;
 	@JsonFormat(pattern = "yyyy-MM-dd")
-//	@NotEmpty
 	private LocalDate endDate;
-//	@NotEmpty
 	@Enumerated(EnumType.STRING)
 	private LeaveType leaveType;
-//	@NotEmpty
 	private String reason;
 	@Column(name = "status", nullable = false)
 	@Enumerated(EnumType.STRING)

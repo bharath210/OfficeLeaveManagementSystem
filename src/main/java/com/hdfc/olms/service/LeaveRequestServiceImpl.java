@@ -9,15 +9,21 @@ import org.springframework.stereotype.Service;
 
 import com.hdfc.olms.dto.LeaveRequestDTO;
 import com.hdfc.olms.entity.Employee;
+import com.hdfc.olms.entity.LeaveBalance;
 import com.hdfc.olms.entity.LeaveRequest;
 import com.hdfc.olms.repository.ILeaveRequestRepository;
 import com.hdfc.olms.utils.enums.LeaveStatusType;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Service
 public class LeaveRequestServiceImpl implements ILeaveRequestService {
 	
 	@Autowired
 	ILeaveRequestRepository leaveRequestRepo;
+	
+	@Autowired
+	ILeaveBalanceService leaveBalanceService;
 
 	@Override
 	public LeaveRequest applyForLeave(LeaveRequestDTO leaveRequestDTO) {
@@ -56,7 +62,45 @@ public class LeaveRequestServiceImpl implements ILeaveRequestService {
 		LeaveRequest leaveRequest = getLeaveRequestById(leaveRequestId);
 		leaveRequest.setStatus(status);
 		leaveRequest.setComment(comment);
-		return leaveRequestRepo.save(leaveRequest);
+		LeaveRequest updatedLeaveRequest = leaveRequestRepo.save(leaveRequest);
+		
+		long duration = updatedLeaveRequest.getEndDate().getDayOfYear() - updatedLeaveRequest.getStartDate().getDayOfYear();
+		log.info("Duration of the leave : "+duration);
+		
+		if(updatedLeaveRequest.getStatus().equals(LeaveStatusType.APPROVED)) {
+			LeaveBalance leaveBalance= leaveBalanceService.getLeaveBalanceByEmployeeAndLeaveType(updatedLeaveRequest.getEmployee().getEmployeeId(), updatedLeaveRequest.getLeaveType());
+			long balance = leaveBalance.getBalance() - duration;
+			LeaveBalance updateLeaveBalance = leaveBalanceService.updateLeaveBalance(leaveBalance.getLeaveBalanceId(), balance);
+			log.info(updateLeaveBalance + " is updated");
+		}
+		
+		return updatedLeaveRequest;
+	}
+
+	@Override
+	@Transactional
+	public List<LeaveRequest> getLeaveRequestByEmployeeId(long employeeId) {
+		
+		return leaveRequestRepo.getLeaveHistoryByEmployeeId(employeeId);
+	}
+
+	@Override
+	@Transactional
+	public List<LeaveRequest> getLeaveHistroyAll() {
+	
+		return leaveRequestRepo.getLeaveHistroyAll();
+	}
+	
+	@Override
+	public LeaveRequest getLeaveStatus(long leaveRequestId) {
+		return leaveRequestRepo.findById(leaveRequestId).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public List<LeaveRequest> getPendingLeaveRquestsByEmployee(long employeeId) {
+		// TODO Auto-generated method stub
+		return leaveRequestRepo.getPendingLeaveRquestsByEmployee(employeeId);
 	}
 
 }
