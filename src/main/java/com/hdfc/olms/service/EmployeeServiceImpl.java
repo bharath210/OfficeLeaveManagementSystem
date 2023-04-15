@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.hdfc.olms.dto.EmployeeDTO;
 import com.hdfc.olms.dto.LeaveBalanceDTO;
 import com.hdfc.olms.entity.Employee;
+import com.hdfc.olms.entity.LeaveBalance;
 import com.hdfc.olms.exception.EmployeeNotFoundException;
 import com.hdfc.olms.repository.IEmployeeRepository;
+import com.hdfc.olms.repository.ILeaveBalanceRepository;
 import com.hdfc.olms.utils.LeaveBalanceConstants;
 import com.hdfc.olms.utils.enums.LeaveType;
 
@@ -23,6 +25,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	
 	@Autowired
 	ILeaveBalanceService leaveBalanceService;
+	
+	@Autowired
+	ILeaveBalanceRepository leaveBalanceRepo;
 	@Override
 	public Employee addEmployee(EmployeeDTO employeeDTO) {
 		
@@ -47,8 +52,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			
 			LeaveBalanceDTO earnedLeaveBalance = new LeaveBalanceDTO();
 			earnedLeaveBalance.setEmployee(savedEmployee);
-			earnedLeaveBalance.setLeaveType(LeaveType.EARNED_LEAVE);
-			earnedLeaveBalance.setBalance(LeaveBalanceConstants.EARNED_LEAVE_BALANCE);
+			earnedLeaveBalance.setLeaveType(LeaveType.ANUAL_LEAVE);
+			earnedLeaveBalance.setBalance(LeaveBalanceConstants.ANUAL_LEAVE_BALANCE);
 			
 			leaveBalanceService.addLeaveBalance(casualLeaveBalance);
 			log.info(casualLeaveBalance + " is inserted");
@@ -76,7 +81,10 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	@Override
-	public Employee getEmployeeById(long employeeId) {
+	public Employee getEmployeeById(long employeeId) throws EmployeeNotFoundException {
+		if(!employeeRepo.existsById(employeeId)) {
+			throw new EmployeeNotFoundException("Could not find Employee with employeeId : " +  employeeId);
+		}
 			
 		return employeeRepo.findById(employeeId).orElse(null);
 	}
@@ -88,21 +96,26 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	@Override
-	public void deleteEmployeeById(long employeeId) {
+	public void deleteEmployeeById(long employeeId) throws EmployeeNotFoundException {
+		if(!employeeRepo.existsById(employeeId)) {
+			throw new EmployeeNotFoundException("Could not find Employee by employeeId : " +  employeeId);
+		}
+		List<LeaveBalance> list = leaveBalanceService.getEmployeeLeaveBalances(employeeId);
+		for(LeaveBalance leaveBalance : list) {
+			leaveBalanceRepo.delete(leaveBalance);
+		}
 		employeeRepo.deleteById(employeeId);
 
 	}
 
 	@Override
-	public boolean isEmployeeExist(long employeeId) {
+	public Employee findByEmail(String email) throws EmployeeNotFoundException {
 		
-		return employeeRepo.existsById(employeeId);
-	}
-
-	@Override
-	public Employee findByEmail(String email) {
-		
-		return employeeRepo.findByEmail(email);
+		Employee employee =  employeeRepo.findByEmail(email);
+		if(employee == null) {
+			throw new EmployeeNotFoundException("Could not find Employee by email : " +  email);
+		}
+		return employee;
 	}
 
 }

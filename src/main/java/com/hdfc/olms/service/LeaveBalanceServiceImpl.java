@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.hdfc.olms.dto.LeaveBalanceDTO;
 import com.hdfc.olms.entity.Employee;
 import com.hdfc.olms.entity.LeaveBalance;
+import com.hdfc.olms.exception.LeaveBalanceNotFoundException;
 import com.hdfc.olms.repository.IEmployeeRepository;
 import com.hdfc.olms.repository.ILeaveBalanceRepository;
 import com.hdfc.olms.utils.enums.LeaveType;
@@ -37,15 +38,17 @@ public class LeaveBalanceServiceImpl implements ILeaveBalanceService{
 	}
 	
 	@Override
-	public LeaveBalance updateLeaveBalance(long leaveBalanceId, long balance) {
+	public LeaveBalance updateBalance(long leaveBalanceId, long balance) throws LeaveBalanceNotFoundException {
 		LeaveBalance leaveBalance = getLeaveBalanceById(leaveBalanceId);
 		leaveBalance.setBalance(balance);
 		return leaveBalanceRepo.save(leaveBalance);
 	}
 
 	@Override
-	public LeaveBalance getLeaveBalanceById(long leaveBalanceId) {
-		
+	public LeaveBalance getLeaveBalanceById(long leaveBalanceId) throws LeaveBalanceNotFoundException {
+		if(!leaveBalanceRepo.existsById(leaveBalanceId)) {
+			throw new LeaveBalanceNotFoundException("Leave Balance record not found with leaveBalanceId : " + leaveBalanceId);
+		}
 		return leaveBalanceRepo.findById(leaveBalanceId).orElse(null);
 	}
 
@@ -84,6 +87,14 @@ public class LeaveBalanceServiceImpl implements ILeaveBalanceService{
 			
 		}
 		return list;
+	}
+
+	@Override
+	public LeaveBalance updateLeaveBalance(long emplpoyeeId, LeaveType leaveType, long balance) {
+		LeaveBalance leaveBalance = leaveBalanceRepo.getLeaveBalanceByEmployeeAndLeaveType(emplpoyeeId, leaveType);
+		leaveBalance.setBalance(balance);
+		
+		return leaveBalanceRepo.save(leaveBalance);
 	}
 
 

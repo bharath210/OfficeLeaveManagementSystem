@@ -13,14 +13,27 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.hdfc.olms.exception.EmployeeNotFoundException;
+import com.hdfc.olms.exception.LeaveBalanceNotFoundException;
+import com.hdfc.olms.exception.LeaveRequestNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(EmployeeNotFoundException.class)
-	public ResponseEntity<String> employeeNotFoundExceptionHandler() {
-		return new ResponseEntity<>("Could not find employee", HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> employeeNotFoundExceptionHandler(EmployeeNotFoundException ex) {
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(LeaveRequestNotFoundException.class)
+	public ResponseEntity<String> handleLeaveRequestNotFoundException(LeaveRequestNotFoundException ex){
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(LeaveBalanceNotFoundException.class)
+	public ResponseEntity<String> handleLeaveBalancetNotFoundException(LeaveBalanceNotFoundException ex){
+		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+	
 
 	@ExceptionHandler(ConstraintViolationException.class)
 	public ResponseEntity<List<String>> getErrors(ConstraintViolationException ex) {

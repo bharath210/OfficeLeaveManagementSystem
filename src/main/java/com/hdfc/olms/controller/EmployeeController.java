@@ -37,7 +37,7 @@ public class EmployeeController {
 	}
 	
 	@PutMapping("/update")
-	public Employee updateEmployee(@RequestBody EmployeeDTO employeeDTO) {
+	public Employee updateEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
 		return employeeService.updateEmployee(employeeDTO);
 	}
 	
@@ -47,26 +47,22 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/get/{employeeId}")
-	public Employee getEmployeeById(@PathVariable long employeeId) throws EmployeeNotFoundException {
-		if(!employeeService.isEmployeeExist(employeeId)) {
-			throw new EmployeeNotFoundException();
-		}
+	public Employee getEmployeeById(@PathVariable long employeeId) throws EmployeeNotFoundException{
 		return employeeService.getEmployeeById(employeeId);
 	}
 	
+	@GetMapping("/get-by-email/{email}")
+	public Employee findByEmail(@PathVariable String email) throws EmployeeNotFoundException{
+			return employeeService.findByEmail(email);
+			
+		}
+	
 	@DeleteMapping("/delete/{employeeId}")
 	public ResponseEntity<String> deleteEmployee(@PathVariable long employeeId) throws EmployeeNotFoundException{
-		if(!employeeService.isEmployeeExist(employeeId)) {
-			throw new EmployeeNotFoundException();
-		}
-		employeeService.deleteEmployeeById(employeeId);
+			employeeService.deleteEmployeeById(employeeId);
 		return new ResponseEntity<>("Employee record deleted", HttpStatus.OK);
 	}
 	
-	@GetMapping("/get-by-email/{email}")
-	public Employee findByEmail(@PathVariable String email) {
-			
-			return employeeService.findByEmail(email);
-		}
+
 
 }
