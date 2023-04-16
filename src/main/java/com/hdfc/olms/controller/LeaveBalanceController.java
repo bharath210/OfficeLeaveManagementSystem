@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hdfc.olms.entity.Employee;
 import com.hdfc.olms.entity.LeaveBalance;
+import com.hdfc.olms.exception.EmployeeNotFoundException;
+import com.hdfc.olms.exception.LeaveBalanceNotFoundException;
 import com.hdfc.olms.service.ILeaveBalanceService;
 import com.hdfc.olms.utils.enums.LeaveType;
 
@@ -39,9 +41,16 @@ public class LeaveBalanceController {
 		return leaveBalanceService.getEmployeeLeaveBalances(employeeId);
 	}
 
-	@GetMapping("/get-absentism")
-	public List<Employee> getEmployeeAbsentism() {
-		return leaveBalanceService.getEmployeAbsentism();
+
+	@GetMapping("/Update-employee-absenteeism/{employeeId}")
+	public LeaveBalance updateEmployeeAbsenteeism(@PathVariable long employeeId) throws LeaveBalanceNotFoundException, EmployeeNotFoundException {
+		return leaveBalanceService.updateEmployeeAbsenteeism(employeeId);
 	}
+	
+	@GetMapping("/get-employee-absenteeism")
+	public List<Employee> getEmployeeAbsenteeism(){
+		return leaveBalanceService.getEmployeeAbsenteeism();
+	}
+	
 
 }

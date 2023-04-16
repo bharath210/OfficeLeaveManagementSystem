@@ -1,7 +1,12 @@
 package com.hdfc.olms.controller;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +25,8 @@ import com.hdfc.olms.dto.EmployeeDTO;
 import com.hdfc.olms.entity.Employee;
 import com.hdfc.olms.exception.EmployeeNotFoundException;
 import com.hdfc.olms.service.IEmployeeService;
+
+import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping("/api/admin/employees")
@@ -62,7 +69,6 @@ public class EmployeeController {
 			employeeService.deleteEmployeeById(employeeId);
 		return new ResponseEntity<>("Employee record deleted", HttpStatus.OK);
 	}
-	
 
 
 }

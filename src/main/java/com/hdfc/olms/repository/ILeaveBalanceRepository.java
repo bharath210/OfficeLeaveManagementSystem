@@ -19,7 +19,5 @@ public interface ILeaveBalanceRepository extends JpaRepository<LeaveBalance, Lon
 	@Query("select lb from LeaveBalance lb where lb.employee.employeeId = :employeeId and lb.leaveType = :leaveType")
 	public LeaveBalance getLeaveBalanceByEmployeeAndLeaveType(@Param("employeeId") long employeeId,
 			@Param("leaveType") LeaveType leaveType);
-	
-	@Query("select sum(lb.balance) from LeaveBalance lb where lb.employee.employeeId = :employeeId")
-	public Integer getTotalLeaveBalanceByEmployeeId(@Param("employeeId") long employeeId);
+
 }

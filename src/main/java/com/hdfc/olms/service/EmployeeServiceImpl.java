@@ -1,9 +1,17 @@
 package com.hdfc.olms.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import com.hdfc.olms.dto.EmployeeDTO;
 import com.hdfc.olms.dto.LeaveBalanceDTO;
@@ -12,11 +20,18 @@ import com.hdfc.olms.entity.LeaveBalance;
 import com.hdfc.olms.exception.EmployeeNotFoundException;
 import com.hdfc.olms.repository.IEmployeeRepository;
 import com.hdfc.olms.repository.ILeaveBalanceRepository;
+import com.hdfc.olms.utils.JasperReportUtil;
 import com.hdfc.olms.utils.LeaveBalanceConstants;
 import com.hdfc.olms.utils.enums.LeaveType;
 
-import ch.qos.logback.classic.Logger;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @Slf4j
 @Service
 public class EmployeeServiceImpl implements IEmployeeService {
@@ -83,7 +98,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	@Override
 	public Employee getEmployeeById(long employeeId) throws EmployeeNotFoundException {
 		if(!employeeRepo.existsById(employeeId)) {
-			throw new EmployeeNotFoundException("Could not find Employee with employeeId : " +  employeeId);
+			throw new EmployeeNotFoundException("Could not find Employee by employeeId : " +  employeeId);
 		}
 			
 		return employeeRepo.findById(employeeId).orElse(null);
@@ -91,8 +106,15 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	public List<Employee> getAllEmployees() {
-		
-		return employeeRepo.findAll();
+		List<Employee> employees = employeeRepo.findAll();
+		try {
+			JasperReportUtil.generateHtmlReport(employees, "employee");
+			log.info("Employee reports generated");
+		} catch (FileNotFoundException | JRException e) {
+			
+			e.printStackTrace();
+		}
+		return employees;
 	}
 
 	@Override
@@ -117,5 +139,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		}
 		return employee;
 	}
+	
 
-}
+} 

@@ -1,5 +1,6 @@
 package com.hdfc.olms.service;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -14,10 +15,12 @@ import com.hdfc.olms.entity.LeaveRequest;
 import com.hdfc.olms.exception.LeaveBalanceNotFoundException;
 import com.hdfc.olms.exception.LeaveRequestNotFoundException;
 import com.hdfc.olms.repository.ILeaveRequestRepository;
+import com.hdfc.olms.utils.JasperReportUtil;
 import com.hdfc.olms.utils.enums.LeaveStatusType;
 import com.hdfc.olms.utils.enums.LeaveType;
 
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.JRException;
 
 @Slf4j
 @Service
@@ -101,8 +104,15 @@ public class LeaveRequestServiceImpl implements ILeaveRequestService {
 	@Override
 	@Transactional
 	public List<LeaveRequest> getLeaveHistroyAll() {
-
-		return leaveRequestRepo.getLeaveHistroyAll();
+		List<LeaveRequest> leaveRequests = leaveRequestRepo.getLeaveHistroyAll();
+		try {
+			JasperReportUtil.generateHtmlReport(leaveRequests, "leave_history");
+			log.info("Leave History Logs Generated");
+		} catch (FileNotFoundException | JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return leaveRequests;
 	}
 
 	@Override

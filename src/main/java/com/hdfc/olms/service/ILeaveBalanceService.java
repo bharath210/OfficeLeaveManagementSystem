@@ -5,6 +5,7 @@ import java.util.List;
 import com.hdfc.olms.dto.LeaveBalanceDTO;
 import com.hdfc.olms.entity.Employee;
 import com.hdfc.olms.entity.LeaveBalance;
+import com.hdfc.olms.exception.EmployeeNotFoundException;
 import com.hdfc.olms.exception.LeaveBalanceNotFoundException;
 import com.hdfc.olms.utils.enums.LeaveType;
 
@@ -16,8 +17,9 @@ public interface ILeaveBalanceService {
 	public List<LeaveBalance> getEmployeeLeaveBalances(long employeeId);
 	public List<LeaveBalance> getAllLeaveBalances();
 	public LeaveBalance getLeaveBalanceByEmployeeAndLeaveType( long employeeId, LeaveType leaveType );
-	public List<Employee> getEmployeAbsentism();
+	public LeaveBalance updateEmployeeAbsenteeism(long employeeId) throws LeaveBalanceNotFoundException, EmployeeNotFoundException;
 	public LeaveBalance updateLeaveBalance(long emplpoyeeId, LeaveType leaveType,long balance);
+	public List<Employee> getEmployeeAbsenteeism();
 	
 	
 }
