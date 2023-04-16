@@ -9,7 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import com.hdfc.olms.entity.LeaveBalance;
 import com.hdfc.olms.utils.enums.LeaveType;
-
+/**
+ *@author Bharath Kumar
+ *@created 04-Apr-2023
+*
+ */
 @Repository
 public interface ILeaveBalanceRepository extends JpaRepository<LeaveBalance, Long> {
 

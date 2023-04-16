@@ -1,17 +1,10 @@
 package com.hdfc.olms.service;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 import com.hdfc.olms.dto.EmployeeDTO;
 import com.hdfc.olms.dto.LeaveBalanceDTO;
@@ -25,13 +18,12 @@ import com.hdfc.olms.utils.LeaveBalanceConstants;
 import com.hdfc.olms.utils.enums.LeaveType;
 
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.JRException;/**
+ *@author Bharath Kumar
+ *@created 06-Apr-2023
+*
+ */
+
 @Slf4j
 @Service
 public class EmployeeServiceImpl implements IEmployeeService {
@@ -111,8 +103,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			JasperReportUtil.generateHtmlReport(employees, "employee");
 			log.info("Employee reports generated");
 		} catch (FileNotFoundException | JRException e) {
-			
-			e.printStackTrace();
+			log.info(e.getMessage());
 		}
 		return employees;
 	}

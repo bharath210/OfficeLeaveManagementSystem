@@ -1,5 +1,9 @@
-package com.hdfc.olms.controller;
-
+package com.hdfc.olms.exception;
+/**
+ *@author Bharath Kumar
+ *@created 10-Apr-2023
+*
+ */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -12,15 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.hdfc.olms.exception.EmployeeNotFoundException;
-import com.hdfc.olms.exception.LeaveBalanceNotFoundException;
-import com.hdfc.olms.exception.LeaveRequestNotFoundException;
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(EmployeeNotFoundException.class)
-	public ResponseEntity<?> employeeNotFoundExceptionHandler(EmployeeNotFoundException ex) {
+	public ResponseEntity<String> employeeNotFoundExceptionHandler(EmployeeNotFoundException ex) {
 		return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 	

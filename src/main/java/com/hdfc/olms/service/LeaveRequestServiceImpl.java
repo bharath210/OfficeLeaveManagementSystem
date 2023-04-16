@@ -21,7 +21,11 @@ import com.hdfc.olms.utils.enums.LeaveType;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
-
+/**
+ *@author Bharath Kumar
+ *@created 06-Apr-2023
+*
+ */
 @Slf4j
 @Service
 public class LeaveRequestServiceImpl implements ILeaveRequestService {
@@ -40,7 +44,6 @@ public class LeaveRequestServiceImpl implements ILeaveRequestService {
 		employee.setEmployeeId(leaveRequestDTO.getEmployee().getEmployeeId());
 
 		leaveRequest.setLeaveRequestId(leaveRequestDTO.getLeaveRequestId());
-//		leaveRequest.setEmployee(leaveRequestDTO.getEmployee());
 		leaveRequest.setEmployee(employee);
 		leaveRequest.setStartDate(leaveRequestDTO.getStartDate());
 		leaveRequest.setEndDate(leaveRequestDTO.getEndDate());
@@ -68,13 +71,13 @@ public class LeaveRequestServiceImpl implements ILeaveRequestService {
 	}
 
 	@Override
-	public LeaveRequest UpdateLeave(long leaveRequestId, LeaveStatusType status, String comment) throws LeaveRequestNotFoundException, LeaveBalanceNotFoundException {
+	public LeaveRequest updateLeave(long leaveRequestId, LeaveStatusType status, String comment) throws LeaveRequestNotFoundException, LeaveBalanceNotFoundException {
 		LeaveRequest leaveRequest = getLeaveRequestById(leaveRequestId);
 		leaveRequest.setStatus(status);
 		leaveRequest.setComment(comment);
 		LeaveRequest updatedLeaveRequest = leaveRequestRepo.save(leaveRequest);
 
-		long duration = updatedLeaveRequest.getEndDate().getDayOfYear()
+		long duration = (long)updatedLeaveRequest.getEndDate().getDayOfYear()
 				- updatedLeaveRequest.getStartDate().getDayOfYear()+1;
 		log.info("Duration of the leave : " + duration);
 
@@ -109,8 +112,7 @@ public class LeaveRequestServiceImpl implements ILeaveRequestService {
 			JasperReportUtil.generateHtmlReport(leaveRequests, "leave_history");
 			log.info("Leave History Logs Generated");
 		} catch (FileNotFoundException | JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.info(e.getMessage());
 		}
 		return leaveRequests;
 	}

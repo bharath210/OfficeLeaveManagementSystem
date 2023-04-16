@@ -8,7 +8,11 @@ import com.hdfc.olms.entity.LeaveBalance;
 import com.hdfc.olms.exception.EmployeeNotFoundException;
 import com.hdfc.olms.exception.LeaveBalanceNotFoundException;
 import com.hdfc.olms.utils.enums.LeaveType;
-
+/**
+ *@author Bharath Kumar
+ *@created 06-Apr-2023
+*
+ */
 public interface ILeaveBalanceService {
 	
 	public LeaveBalance addLeaveBalance(LeaveBalanceDTO leaveBalanceDTO);

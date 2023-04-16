@@ -1,12 +1,7 @@
 package com.hdfc.olms.controller;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +20,11 @@ import com.hdfc.olms.dto.EmployeeDTO;
 import com.hdfc.olms.entity.Employee;
 import com.hdfc.olms.exception.EmployeeNotFoundException;
 import com.hdfc.olms.service.IEmployeeService;
-
-import net.sf.jasperreports.engine.JRException;
-
+/**
+ *@author Bharath Kumar
+ *@created 09-Apr-2023
+*
+ */
 @RestController
 @RequestMapping("/api/admin/employees")
 public class EmployeeController {
@@ -36,11 +33,9 @@ public class EmployeeController {
 	IEmployeeService employeeService;
 	
 	@PostMapping("/add")
-	public ResponseEntity<?> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+	public Employee createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
 
-		  Employee employee = employeeService.addEmployee(employeeDTO);
-		  return new ResponseEntity<>(employee, HttpStatus.OK);
-
+		 return employeeService.addEmployee(employeeDTO);
 	}
 	
 	@PutMapping("/update")

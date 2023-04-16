@@ -8,7 +8,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.hdfc.olms.entity.LeaveRequest;
-
+/**
+ *@author Bharath Kumar
+ *@created 04-Apr-2023
+*
+ */
 @Repository
 public interface ILeaveRequestRepository extends JpaRepository<LeaveRequest, Long> {
 	

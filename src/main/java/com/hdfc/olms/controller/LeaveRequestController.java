@@ -23,7 +23,11 @@ import com.hdfc.olms.exception.LeaveBalanceNotFoundException;
 import com.hdfc.olms.exception.LeaveRequestNotFoundException;
 import com.hdfc.olms.service.ILeaveRequestService;
 import com.hdfc.olms.utils.enums.LeaveStatusType;
-
+/**
+ *@author Bharath Kumar
+ *@created 09-Apr-2023
+*
+ */
 @RestController
 @RequestMapping("/api/admin/leave-request")
 public class LeaveRequestController {
@@ -39,7 +43,7 @@ public class LeaveRequestController {
 	@PutMapping("/approve-or-reject")
 	public LeaveRequest aproveOrRejectLeave(@RequestParam("leaveRequestId") long leaveRequestId, 
 			@RequestParam("status") LeaveStatusType status, @RequestParam("comment") String comment) throws LeaveRequestNotFoundException, LeaveBalanceNotFoundException {
-		return leaveRequestService.UpdateLeave(leaveRequestId, status, comment);
+		return leaveRequestService.updateLeave(leaveRequestId, status, comment);
 	}
 	
 	@GetMapping("/get/pending-leaves/all" )
@@ -71,7 +75,7 @@ public class LeaveRequestController {
 	@DeleteMapping("/delete/{leaveRequestId}")
 	public ResponseEntity<String> deleteLeaveRequest(@PathVariable long leaveRequestId) throws LeaveRequestNotFoundException{ 
 		leaveRequestService.deleteLeaveRequest(leaveRequestId);
-		return new ResponseEntity<String>("Leave Request deleted succesfully", HttpStatus.OK);
+		return new ResponseEntity<>("Leave Request deleted succesfully", HttpStatus.OK);
 	}
 
 }

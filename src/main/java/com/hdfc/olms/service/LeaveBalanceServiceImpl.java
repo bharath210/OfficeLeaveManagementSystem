@@ -1,6 +1,7 @@
 package com.hdfc.olms.service;
 
 import java.io.FileNotFoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,12 +22,17 @@ import com.hdfc.olms.utils.enums.LeaveType;
 
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
+/**
+ *@author Bharath Kumar
+ *@created 06-Apr-2023
+*
+ */
 @Slf4j
 @Service
 public class LeaveBalanceServiceImpl implements ILeaveBalanceService{
 	List<Long> employees;
 	public LeaveBalanceServiceImpl() {
-		employees = new ArrayList<Long>();
+		employees = new ArrayList<>();
 	}
 	
 	@Autowired
@@ -63,14 +69,12 @@ public class LeaveBalanceServiceImpl implements ILeaveBalanceService{
 	}
 
 	@Override
-	@Transactional
 	public List<LeaveBalance> getEmployeeLeaveBalances(long employeeId) {
 		
 		return leaveBalanceRepo.getEmployeeLeaveBalances(employeeId);
 	}
 
 	@Override
-	@Transactional
 	public LeaveBalance getLeaveBalanceByEmployeeAndLeaveType(long employeeId, LeaveType leaveType) {
 		
 		return leaveBalanceRepo.getLeaveBalanceByEmployeeAndLeaveType(employeeId, leaveType);
@@ -84,7 +88,7 @@ public class LeaveBalanceServiceImpl implements ILeaveBalanceService{
 			log.info("Leave Balance Report Generated");
 		} catch (FileNotFoundException | JRException e) {
 			
-			e.printStackTrace();
+			log.info(e.getMessage());
 		}
 		 return leaveBalances;
 		}
@@ -112,7 +116,7 @@ public class LeaveBalanceServiceImpl implements ILeaveBalanceService{
 		try {
 			JasperReportUtil.generateHtmlReport(empList, "employee_absenteeism");
 		} catch (FileNotFoundException | JRException e) {
-			e.printStackTrace();
+			log.info(e.getMessage());
 		}
 		return empList;
 	}
