@@ -21,7 +21,7 @@ class EmployeeServiceImplTest {
 	@Test
 	void testAddEmployee() {
 		EmployeeDTO employee = new EmployeeDTO();
-		employee.setName("Hasin");
+		employee.setName("Hasini");
 		employee.setEmail("hasini@gmail.com");
 		employee.setPhoneNumber("+91 8762787367");
 		employee.setDepartment("HR");
@@ -33,7 +33,7 @@ class EmployeeServiceImplTest {
 
 	@Test
 	void testGetEmployeeById() throws EmployeeNotFoundException {
-		Employee employee =  employeeService.getEmployeeById(42);
+		Employee employee =  employeeService.getEmployeeById(1);
 		assertEquals("bharath@gmail.com", employee.getEmail());
 	}
 
@@ -42,7 +42,7 @@ class EmployeeServiceImplTest {
 	@Test
 	void testFindByEmail() throws EmployeeNotFoundException {
 		Employee employee = employeeService.findByEmail("bharath@gmail.com");
-		assertEquals(42, employee.getEmployeeId());
+		assertEquals(1, employee.getEmployeeId());
 	}
 
 }

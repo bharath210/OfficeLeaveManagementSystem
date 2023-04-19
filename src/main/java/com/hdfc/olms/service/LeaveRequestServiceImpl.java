@@ -76,6 +76,7 @@ public class LeaveRequestServiceImpl implements ILeaveRequestService {
 		leaveRequest.setStatus(status);
 		leaveRequest.setComment(comment);
 		LeaveRequest updatedLeaveRequest = leaveRequestRepo.save(leaveRequest);
+		log.info(leaveRequest.getEmployee().getName() + " Leave Request is " + leaveRequest.getStatus());
 
 		long duration = (long)updatedLeaveRequest.getEndDate().getDayOfYear()
 				- updatedLeaveRequest.getStartDate().getDayOfYear()+1;
